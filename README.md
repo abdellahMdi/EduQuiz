@@ -1,0 +1,2 @@
+## EduQuiz : Application de Quiz
+À CodeAcademy, les formateurs perdent énormément de temps à corriger des QCM sur papier après chaque module (HTML, CSS, PHP). Ils ont besoin d'une plateforme web interne où ils peuvent créer des évaluations rapides. Les étudiants, de leur côté, souhaitent connaître leur score instantanément pour savoir s'ils ont validé leurs acquis avant de passer au module suivant.
