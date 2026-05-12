@@ -37,7 +37,7 @@ CREATE TABLE `questions` (
   `answer_b` VARCHAR(255),
   `answer_c` VARCHAR(255),
   `answer_d` VARCHAR(255),
-  `quiz_id` INT NOT NULL,
+  `quiz_id` VARCHAR(12) ,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`quiz_id`)
       REFERENCES `quizes`(`quiz_code`)
