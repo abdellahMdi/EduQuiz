@@ -4,7 +4,7 @@ USE EduQuiz ;
 
 
 CREATE TABLE `students` (
-  `id` INT AUTO_INCRREMENT,
+  `id` INT AUTO_INCREMENT,
   `name` VARCHAR(50),
   `email` VARCHAR(100),
   `passord` VARCHAR(20),
@@ -12,7 +12,7 @@ CREATE TABLE `students` (
 );
 
 CREATE TABLE `teachers` (
-  `id` INT AUTO_INCRREMENT,
+  `id` INT AUTO_INCREMENT,
   `name` VARCHAR(50),
   `email` VARCHAR(100),
   `passord` VARCHAR(20),
@@ -20,7 +20,7 @@ CREATE TABLE `teachers` (
 );
 
 CREATE TABLE `quizes` (
-  `id` INT AUTO_INCRREMENT,
+  `id` INT AUTO_INCREMENT,
   `quiz_code` VARCHAR(12) UNIQUE,
   `title` VARCHAR(50),
   `description` VARCHAR(255),
@@ -31,7 +31,7 @@ CREATE TABLE `quizes` (
 );
 
 CREATE TABLE `questions` (
-  `id` INT AUTO_INCRREMENT,
+  `id` INT AUTO_INCREMENT,
   `question` TEXT,
   `answer_a` VARCHAR(255),
   `answer_b` VARCHAR(255),
@@ -44,7 +44,7 @@ CREATE TABLE `questions` (
 );
 
 CREATE TABLE `studentanswers` (
-  `id` INT AUTO_INCRREMENT,
+  `id` INT AUTO_INCREMENT,
   `first` VARCHAR(6),
   `second` VARCHAR(6),
   `third` VARCHAR(6),
@@ -57,7 +57,7 @@ CREATE TABLE `studentanswers` (
 );
 
 CREATE TABLE `results` (
-  `id` INT AUTO_INCRREMENT,
+  `id` INT AUTO_INCREMENT,
   `score` DECIMAL(4,2),
   `student_id` INT NOT NULL,
   `quiz_id` INT NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE `results` (
 );
 
 CREATE TABLE `reponces` (
-  `id` INT AUTO_INCRREMENT,
+  `id` INT AUTO_INCREMENT,
   `question_id` INT NOT NULL,
   `a` VARCHAR(5),
   `b` VARCHAR(5),
