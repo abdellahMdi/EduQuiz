@@ -65,9 +65,7 @@ CREATE TABLE `results` (
   FOREIGN KEY (`student_id`)
       REFERENCES `students`(`id`),
   FOREIGN KEY (`quiz_id`)
-      REFERENCES `quizes`(`id`),
-  FOREIGN KEY (`id`)
-      REFERENCES `studentanswers`(`result_id`)
+      REFERENCES `quizes`(`id`)
 );
 
 CREATE TABLE `reponces` (
