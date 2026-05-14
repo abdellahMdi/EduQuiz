@@ -1,32 +1,24 @@
 <?php
 
-class Database {
+require_once DIR . "/Env.php";
+Env::load(DIR . "/../.env");
+class DB {
 
-    private $host = "localhost";
-    private $dbname = "eduquiz";
-    private $username = "root";
-    private $password = "";
-    private $conn;
-
-    public function connect() {
-
-        $this->conn = null;
+    public static function connect() {
 
         try {
-            $this->conn = new PDO(
-                "mysql:host=" . $this->host . ";dbname=" . $this->dbname,
-                $this->username,
-                $this->password
+            $pdo = new PDO(
+                "mysql:host=" . $_ENV['DB_HOST'] . ";dbname=" . $_ENV['DB_NAME'],
+                $_ENV['DB_USER'],
+                $_ENV['DB_PASS']
             );
 
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        } catch(PDOException $e) {
+            return $pdo;
 
-            echo "Erreur de connexion : " . $e->getMessage();
+        } catch (PDOException $e) {
+            die("DB Connection failed: " . $e->getMessage());
         }
-
-        return $this->conn;
     }
 }
-?>
