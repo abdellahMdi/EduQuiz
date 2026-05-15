@@ -1,4 +1,20 @@
+<?php
 
+session_start();
+
+require_once __DIR__ . "/../src/repositories/resultRepostry.php";
+// require_once __DIR__ . "/../src/student/quiz_interface.php"; 
+
+$repo = new ResultRepository();
+
+$quiz_id = $_SESSION['quiz_id'] ?? null;
+
+if (!$quiz_id) {
+    die("Quiz non sélectionné");
+}
+
+$results = $repo->getDashboardResults($quiz_id);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -39,26 +55,39 @@
                         <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="font-medium text-gray-900">Nisrina</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-gray-800">18/20</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Validé</span>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 bg-red-50/20">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="font-medium text-gray-900">Anonyme</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center font-bold text-red-600">08/20</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">À revoir</span>
-                        </td>
-                    </tr>
-                </tbody>
+         <tbody>
+
+<?php foreach ($results as $r): ?>
+
+    <tr>
+
+        <td class="px-6 py-4">
+            <?= $r['name'] ?>
+        </td>
+
+        <td class="px-6 py-4 text-center font-bold">
+            <?= $r['score'] ?>/20
+        </td>
+
+        <td class="px-6 py-4 text-center">
+
+            <?php if ($r['score'] >= 10): ?>
+                <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">
+                    Validé
+                </span>
+            <?php else: ?>
+                <span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded">
+                    À revoir
+                </span>
+            <?php endif; ?>
+
+        </td>
+
+    </tr>
+
+<?php endforeach; ?>
+
+</tbody>
             </table>
         </div>
     </div>

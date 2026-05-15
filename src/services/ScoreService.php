@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../config/Database.php";
+require_once __DIR__ . "/../../config/Database.php";
 
 class ScoreService {
 
@@ -12,76 +12,70 @@ class ScoreService {
         $this->conn = $database->connect();
     }
 
-    public function calculerScore($result_id) {
+  public function calculerScore($result_id) {
 
-        // Réponses étudiant
-        $sqlStudent = "SELECT reponce_id 
-                       FROM studentanswers
-                       WHERE result_id = ?";
-
-        $stmtStudent = $this->conn->prepare($sqlStudent);
-        $stmtStudent->execute([$result_id]);
-
-        $studentAnswers = $stmtStudent->fetchAll(PDO::FETCH_COLUMN);
-
-
-
-        // Bonnes réponses
-        $sqlCorrect = "SELECT id
-                       FROM reponces
-                       WHERE is_correct = TRUE";
-
-        $stmtCorrect = $this->conn->prepare($sqlCorrect);
-        $stmtCorrect->execute();
-
-        $correctAnswers = $stmtCorrect->fetchAll(PDO::FETCH_COLUMN);
-
-
-
-        // Comparaison
-        $score = 0;
-
-        for($i = 0; $i < count($studentAnswers); $i++) {
-
-            if($studentAnswers[$i] == $correctAnswers[$i]) {
-
-                $score++;
-            }
-        }
-
-        return $score;
-    }
-    public function getWrongAnswers($result_id) {
-
-    $sql = "SELECT 
-                questions.question,
-                studentanswers.reponce_id AS student_answer,
-                correct.id AS correct_answer
-
+    // Student answers
+    $sql = "SELECT reponce_id 
             FROM studentanswers
-
-            JOIN questions 
-            ON questions.id = studentanswers.question_id
-
-            JOIN reponces AS correct
-            ON correct.question_id = questions.id
-            AND correct.is_correct = 1
-
-            WHERE studentanswers.result_id = ?";
+            WHERE result_id = ?";
 
     $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$result_id]);
 
+    $studentAnswers = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    $score = 0;
+
+    foreach ($studentAnswers as $answer) {
+
+        $sqlCheck = "SELECT COUNT(*) 
+                     FROM reponces 
+                     WHERE id = ? AND is_correct = 1";
+
+        $stmtCheck = $this->conn->prepare($sqlCheck);
+        $stmtCheck->execute([$answer]);
+
+        if ($stmtCheck->fetchColumn() > 0) {
+            $score++;
+        }
+    }
+
+    return $score;
+}
+   public function getWrongAnswers($result_id) {
+
+    $sql = "
+        SELECT 
+            q.question,
+            sa.reponce_id AS student_answer,
+            correct.id AS correct_answer,
+            sr.option_text AS student_text,
+            cr.option_text AS correct_text
+        FROM studentanswers sa
+
+        JOIN questions q 
+            ON q.id = sa.question_id
+
+        JOIN reponces sr 
+            ON sr.id = sa.reponce_id
+
+        JOIN reponces cr 
+            ON cr.question_id = q.id 
+            AND cr.is_correct = 1
+
+        WHERE sa.result_id = ?
+    ";
+
+    $stmt = $this->conn->prepare($sql);
     $stmt->execute([$result_id]);
 
     $answers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $wrongAnswers = [];
 
-    for($i = 0; $i < count($answers); $i++) {
-
-        if($answers[$i]['student_answer'] != $answers[$i]['correct_answer']) {
-
-            $wrongAnswers[] = $answers[$i];
+    foreach ($answers as $a) {
+        if ($a['student_answer'] != $a['correct_answer']) {
+            $wrongAnswers[] = $a;
         }
     }
 
