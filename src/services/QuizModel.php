@@ -39,6 +39,7 @@ public function addQuestionWithOptions(int $quizId , string $questionText , arra
             $isCorrect = in_array((string)$index, $correctIndexes, true) ? 1 : 0;
 
             $stmtOption->execute([$questionId, $text, $isCorrect]);
+        }
             $this->pdo->commit();
             return true;
 

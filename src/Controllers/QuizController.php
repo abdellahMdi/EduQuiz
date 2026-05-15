@@ -41,5 +41,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->showEditQuiz($quizId);
         }
       }
-    }
+
 }

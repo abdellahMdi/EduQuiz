@@ -1,4 +1,5 @@
 <?php
+// T9dr tzid l'code PHP dyalek hna lfo9 (require Controller, session, etc.)
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -50,10 +51,13 @@
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-blue-500">
             <h2 class="text-lg font-semibold mb-4">2. Ajouter une Question</h2>
 
-            <div class="space-y-4">
+            <form action="" method="POST" class="space-y-4">
+
+                <input type="hidden" name="quizId" value="1">
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Votre question</label>
-                    <textarea rows="2" placeholder="Saisissez la question ici..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"></textarea>
+                    <textarea name="question" rows="2" required placeholder="Saisissez la question ici..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"></textarea>
                 </div>
 
                 <div>
@@ -61,13 +65,14 @@
 
                     <div id="options-container" class="space-y-3">
                         <div class="flex items-center gap-3">
-                            <input type="checkbox" class="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 cursor-pointer" title="Marquer comme correcte">
-                            <input type="text" placeholder="Option 1" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                            <input type="checkbox" name="is_correct[]" value="0" class="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 cursor-pointer" title="Marquer comme correcte">
+                            <input type="text" name="options[]" placeholder="Option 1" required class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                             <button type="button" class="text-red-500 hover:bg-red-50 p-2 rounded-lg opacity-50 cursor-not-allowed"><i class="fas fa-trash"></i></button>
                         </div>
+
                         <div class="flex items-center gap-3">
-                            <input type="checkbox" class="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 cursor-pointer" title="Marquer comme correcte">
-                            <input type="text" placeholder="Option 2" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                            <input type="checkbox" name="is_correct[]" value="1" class="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 cursor-pointer" title="Marquer comme correcte">
+                            <input type="text" name="options[]" placeholder="Option 2" required class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                             <button type="button" class="text-red-500 hover:bg-red-50 p-2 rounded-lg opacity-50 cursor-not-allowed"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
@@ -78,11 +83,11 @@
                 </div>
 
                 <div class="flex justify-end mt-4 pt-4 border-t">
-                    <button type="button" class="bg-gray-800 hover:bg-gray-900 text-white px-5 py-2 rounded-lg font-medium transition duration-200">
+                    <button type="submit" class="bg-gray-800 hover:bg-gray-900 text-white px-5 py-2 rounded-lg font-medium transition duration-200">
                         Ajouter la question
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
 
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
@@ -107,21 +112,28 @@
                     </li>
                 </ul>
             </div>
-
         </div>
     </div>
 </div>
 
 <script>
+    // Variables globales bach n7sbou chhal mn option 3ndna f l'HTML o n3tiwhom index s7i7
+    let currentOptions = 2;
+
     function ajouterOption() {
         const container = document.getElementById('options-container');
-        const optionsCount = container.children.length + 1;
+
+        // L'index dyal checkbox khasso dima ykon kaytb3 le nombre d'options f tableau PHP (0, 1, 2, 3...)
+        const newIndex = currentOptions;
+        currentOptions++;
 
         const nouvelleOption = document.createElement('div');
         nouvelleOption.className = 'flex items-center gap-3 mt-3 animate-fade-in';
+
+        // Zedna value="${newIndex}" bach mli tcocha f PHP tjina mziana m3a Array dyal options[]
         nouvelleOption.innerHTML = `
-                <input type="checkbox" name="is_correct[]" class="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 cursor-pointer" title="Marquer comme correcte">
-                <input type="text" name="options[]" placeholder="Option ${optionsCount}" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                <input type="checkbox" name="is_correct[]" value="${newIndex}" class="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 cursor-pointer" title="Marquer comme correcte">
+                <input type="text" name="options[]" placeholder="Option ${newIndex + 1}" required class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
                 <button type="button" onclick="this.parentElement.remove()" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition"><i class="fas fa-trash"></i></button>
             `;
         container.appendChild(nouvelleOption);
@@ -129,5 +141,3 @@
 </script>
 </body>
 </html>
-
-
