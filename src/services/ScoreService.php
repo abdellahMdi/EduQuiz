@@ -81,5 +81,30 @@ class ScoreService {
 
     return $wrongAnswers;
 }
+public function getAnswersByResult($result_id) {
+
+    $sql = "
+        SELECT 
+            q.question,
+            sr.option_text AS student_answer,
+            cr.option_text AS correct_answer,
+            cr.is_correct
+        FROM studentanswers sa
+
+        JOIN questions q ON q.id = sa.question_id
+        JOIN reponces sr ON sr.id = sa.reponce_id
+
+        JOIN reponces cr 
+            ON cr.question_id = q.id
+            AND cr.is_correct = 1
+
+        WHERE sa.result_id = ?
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$result_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }
 ?>

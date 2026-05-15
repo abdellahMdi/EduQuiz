@@ -2,18 +2,21 @@
 
 session_start();
 
-require_once __DIR__ . "/../src/repositories/resultRepostry.php";
+require_once __DIR__ . "/../src/repositories/ResultRepository.php";
+require_once __DIR__ . "/../src/services/ScoreService.php";
 // require_once __DIR__ . "/../src/student/quiz_interface.php"; 
 
 $repo = new ResultRepository();
 
 $quiz_id = $_SESSION['quiz_id'] ?? null;
+$service = new ScoreService();
 
 if (!$quiz_id) {
     die("Quiz non sélectionné");
 }
 
 $results = $repo->getDashboardResults($quiz_id);
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

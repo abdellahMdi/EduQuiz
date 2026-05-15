@@ -13,8 +13,7 @@ INSERT INTO quizzes (quiz_code, title, description, teacher_id) VALUES
 
 -- 3. Ajout de 2 Questions pour ce Quiz (quiz_id = 1)
 INSERT INTO questions (quiz_id, question) VALUES
-                                              (1, 'Comment déclarer une constante en JavaScript ?'),
-                                              (1, 'Quel est le résultat de "2" + 2 en JS ?');
+                                              (2, 'Comment déclarer une constante en PHP ?');
 
 -- 4. Ajout des Choix (Options)
 -- Options pour la Question 1 (question_id = 1)
@@ -39,3 +38,5 @@ INSERT INTO results (score, student_id, quiz_id) VALUES
 INSERT INTO studentanswers (result_id, question_id, reponce_id) VALUES
                                                                     (1, 1, 2),
                                                                     (1, 2, 4);
+INSERT INTO quizzes (quiz_code, title, description, teacher_id) VALUES
+    ('php-2026-X8', 'Évaluation php', 'Test des bases de php pour le groupe ', 1);
