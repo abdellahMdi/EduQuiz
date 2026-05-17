@@ -30,7 +30,7 @@ CREATE TABLE questions (
 CREATE TABLE reponces (
                           id INT AUTO_INCREMENT PRIMARY KEY,
                           question_id INT NOT NULL,
-                          option VARCHAR(255) NOT NULL,
+                          option_text VARCHAR(255) NOT NULL,
                           is_correct BOOLEAN NOT NULL DEFAULT FALSE,
                           FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
