@@ -4,7 +4,9 @@ require_once __DIR__ . "/Env.php";
 Env::load(__DIR__ . "/../.env");
 class Database {
 
-    public static function connect() {
+class Database
+{
+    private static ?PDO $instance = null;
 
         $host = $_ENV['DB_HOST'] ?? 'localhost';
         $name = $_ENV['DB_NAME'] ?? 'EduQuiz';
@@ -20,10 +22,22 @@ class Database {
 
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            return $pdo;
+            $host = "localhost";
+            $dbname = "EduQuiz";
+            $username = "root";
+            $password = "";
+ self::$instance = new PDO(
+                "mysql:host=$host;dbname=$dbname;charset=utf8",
+                $username,
+                $password
+            );
 
-        } catch (PDOException $e) {
-            die("DB Connection failed: " . $e->getMessage());
+            self::$instance->setAttribute(
+                PDO::ATTR_ERRMODE,
+                PDO::ERRMODE_EXCEPTION
+            );
         }
+
+        return self::$instance;
     }
 }
