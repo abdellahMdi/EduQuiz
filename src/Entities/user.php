@@ -1,29 +1,36 @@
 <?php
-
 declare(strict_types=1);
 
 class User
 {
-    private string $fullname;
+    private ?int $id;
+    private string $name;
     private string $email;
     private string $password;
     private string $role;
 
     public function __construct(
-        string $fullname,
-        string $email,
+        ?int $id,
+        string $name,
+        string $email
         string $password,
         string $role
     ) {
-        $this->fullname = $fullname;
+        $this->id = $id;
+        $this->name = $name;
         $this->email = $email;
         $this->password = $password;
         $this->role = $role;
     }
 
-    public function getFullname(): string
+    public function getId(): ?int
     {
-        return $this->fullname;
+        return $this->id
+         }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function getEmail(): string
@@ -34,7 +41,7 @@ class User
     public function getPassword(): string
     {
         return $this->password;
-    }
+        }
 
     public function getRole(): string
     {
