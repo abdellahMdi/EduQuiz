@@ -1,14 +1,26 @@
 <?php
 
-declare(strict_types=1);
+require_once __DIR__ . "/Env.php";
+Env::load(__DIR__ . "/../.env");
+class Database {
 
 class Database
 {
     private static ?PDO $instance = null;
 
-    public static function connect(): PDO
-    {
-        if (self::$instance === null) {
+        $host = $_ENV['DB_HOST'] ?? 'localhost';
+        $name = $_ENV['DB_NAME'] ?? 'EduQuiz';
+        $user = $_ENV['DB_USER'] ?? 'root';
+        $pass = $_ENV['DB_PASS'] ?? '';
+
+        try {
+            $pdo = new PDO(
+                "mysql:host=" . $host . ";dbname=" . $name,
+                $user,
+                $pass
+            );
+
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $host = "localhost";
             $dbname = "EduQuiz";
