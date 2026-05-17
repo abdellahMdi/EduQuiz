@@ -1,24 +1,19 @@
 <?php
+declare(strict_types=1);
 
-require_once __DIR__ . "/Env.php";
-Env::load(__DIR__ . "/../.env");
-class DB {
+class Database {
+    private static ?PDO $pdo = null;
 
-    public static function connect() {
-
-        try {
-            $pdo = new PDO(
-                "mysql:host=" . $_ENV['DB_HOST'] . ";dbname=" . $_ENV['DB_NAME'],
-                $_ENV['DB_USER'],
-                $_ENV['DB_PASS']
-            );
-
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            return $pdo;
-
-        } catch (PDOException $e) {
-            die("DB Connection failed: " . $e->getMessage());
+    public static function connect(): PDO {
+        if (self::$pdo === null) {
+            try {
+               self::$pdo = new PDO("mysql:host=localhost;dbname=EduQuiz;charset=utf8", "root", "");
+                self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            } catch (PDOException $e) {
+                die("Erreur de connexion : " . $e->getMessage());
+            }
         }
+        return self::$pdo;
     }
 }
